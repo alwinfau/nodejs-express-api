@@ -1,0 +1,41 @@
+<div class="bg-white shadow rounded-lg p-6">
+    <h2 class="text-2xl font-semibold mb-4">Daftar Produk</h2>
+    <button class="mb-4 px-4 py-2 bg-blue-500 text-white rounded" id="addProductBtn">Tambah Produk</button>
+    <table class="min-w-full table-auto">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="px-4 py-2">ID</th>
+                <th class="px-4 py-2">Nama Produk</th>
+                <th class="px-4 py-2">Harga</th>
+                <th class="px-4 py-2">Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="productList">
+            <!-- Data produk akan dimuat di sini dengan JavaScript -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Fetch data produk dari API
+    fetch('/api/products')
+        .then(response => response.json())
+        .then(products => {
+            const productList = document.getElementById('productList');
+            products.forEach(product => {
+                const tr = document.createElement('tr');
+                tr.classList.add('border-b');
+                tr.innerHTML = `
+            <td class="px-4 py-2">${product.id}</td>
+            <td class="px-4 py-2">${product.name}</td>
+            <td class="px-4 py-2">${product.price}</td>
+            <td class="px-4 py-2">
+              <button class="text-blue-500">Edit</button>
+              <button class="text-red-500">Delete</button>
+            </td>
+          `;
+                productList.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error fetching products:', error));
+</script>
